@@ -1,0 +1,30 @@
+    <ul id="dropdown1" class="dropdown-content">
+        {% if user.is_authenticated %}
+            <li><a href="/logout/">登出</a></li>
+            <li class="divider"></li>
+        {% else %}
+            <li><a href="/register/">註冊</a></li>
+            <li class="divider"></li>
+            <li><a href="/login/">登入</a></li>
+            <li class="divider"></li>
+        {% endif %}
+    </ul>
+    <nav>
+        <div class="container">    
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo left">選股小幫手</a>
+                <ul class="right">
+                    <li><a href="/">首頁</a></li>
+                    <li><a href="{% url 'main:news_show' 0 %}">新聞列表</a></li>
+                    <li><a href="{% url 'main:stock_show' 0 %}">股票列表</a></li>
+                    <!-- Dropdown Trigger -->
+                    {% if user.is_authenticated %}
+                        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">{{user.username}}<i class="material-icons right">arrow_drop_down</i></a></li>
+                    {% else %}
+                        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">會員功能<i class="material-icons right">arrow_drop_down</i></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+

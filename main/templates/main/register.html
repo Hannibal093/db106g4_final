@@ -1,0 +1,30 @@
+{% extends 'main/index.html' %}
+
+
+{% block content %}
+  <form method="POST" action="{% url 'main:register' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <h5>讓我們更認識您，好為您推薦感興趣的股票及新聞類型</h5>
+    <h6>1.您對以下哪一類型的股票更感興趣?</h6>
+      <label for="shorterm"><input type="radio" id="shorterm" name="stock_type" value="0" ><span>適合做短線交易</span></label>
+
+      <label for="longterm"><input type="radio" id="longterm" name="stock_type" value="1"><span>適合長期持有且股價穩定</span></label>
+
+      <label for="long-endure"><input type="radio" id="long-endure" name="stock_type" value="2" ><span>適合長期持有但短期會有波動</span></label>
+      <br>
+
+    <h6>2.您對以下哪一類型的新聞類型感興趣?</h6>
+      <label for="bank"><input type="radio" id="bank" name="news_type" value="0" ><span>金融消息</span></label>
+
+      <label for="stock"><input type="radio" id="stock" name="news_type" value="1"><span>股市消息</span></label>
+
+      <label for="market"><input type="radio" id="market" name="news_type" value="2" ><span>市場消息</span></label>
+
+      <label for="finance"><input type="radio" id="finance" name="news_type" value="3" ><span>財務報告</span></label>
+    <br><br>
+    <button class="btn" style="background-color: darkred; color:floralwhite" type="submit">註冊</button>
+  </form>
+<br>
+  If you already have an account, <a href="/login/"><strong>Login</strong></a> here.
+{% endblock %}

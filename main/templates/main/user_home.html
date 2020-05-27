@@ -1,0 +1,111 @@
+{% extends 'main/index.html' %}
+
+
+{% block content %}
+
+<form class="search" action="{% url 'main:stock_search' %}" method='post'>
+  {% csrf_token %}
+  <input type="search" placeholder="輸入股票代號(ex:2330),或輸入股票名稱(ex:台積電)" name="q"
+      value='{{ query }}' required>
+  <button type="submit">Search</button>
+</form>
+
+
+<div class="row">
+    <h4>關注股票</h4>
+    {% for s in stock %}
+    <div class="col s10 m7 l4" style="width:33%">
+        <div class="card" >
+            <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" src="/media/{{ s.stock_id }}/stock_price_{{ s.stock_id }}.png">
+            </div>
+            <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">{{ s.stock_id }} {{ s.stock_name }}<i class="material-icons right">more_vert</i></span>
+                <p>{{ s.industry }}</p>
+                <p><a href="{% url 'main:single_stock' s.stock_id %}">詳細資料</a></p>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">{{ s.stock_id }} {{ s.stock_name }}<i class="material-icons right">close</i></span>
+                <p>{{ s.industry }}</p>
+<!--                <a href="{}">{{ s.industry }}</a>-->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row">
+    <div class="col s10 m7 l4" style="width:50%">
+        <h4>推薦股票</h4>
+        {% for b in b_stock %}
+            <div class="card" >
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">
+                        {{ b.stock_id }} {{ b.stock_name }}  <font color="red">精選20, 預測3個月成長</font>
+                    </span>
+                    <p><a href="{% url 'main:single_stock' b.stock_id %}">詳細資料</a></p>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for ss in s_stock %}
+            <div class="card" >
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">
+                        {{ ss.stock_id }} {{ ss.stock_name }}
+                        {% if ss.best_twenty %}<font color="red">精選20</font>{% endif %}
+                        {% if ss.abnor_rep %}<font color="green">異常財報</font>{% endif %}
+                    </span>
+                    <p><a href="{% url 'main:single_stock' ss.stock_id %}">詳細資料</a></p>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for ts in t_stock %}
+            <div class="card" >
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">
+                        {{ ts.stock_id }} {{ ts.stock_name }} <font color="red">預測3個月成長</font>
+                        {% if ts.abnor_rep %}<font color="green">異常財報</font>{% endif %}
+                    </span>
+                    <p><a href="{% url 'main:single_stock' ts.stock_id %}">詳細資料</a></p>
+                </div>
+            </div>
+        {% endfor %}
+<!--        {% for no in n_stock %}-->
+<!--            <div class="card" >-->
+<!--                <div class="card-content">-->
+<!--                    <span class="card-title activator grey-text text-darken-4">-->
+<!--                        {{ no.stock_id }} {{ no.stock_name }}-->
+<!--                        {% if no.abnor_rep %}<font color="green">異常財報</font>{% endif %}-->
+<!--                    </span>-->
+<!--                    <p><a href="{% url 'main:single_stock' no.stock_id %}">詳細資料</a></p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        {% endfor %}-->
+    </div>
+    <div class="col s10 m7 l4" style="width:50%">
+        <h4>推薦新聞 {{ type_name }} 正面</h4>
+        <div class="card">
+        {% for ng in news_good %}
+            <a href="{{ ng.url }}">
+                <div class="card-action">
+                    <h6 class="activator grey-text text-darken-4">{{ ng.title }}</h6>
+                </div>
+            </a>
+        {% endfor %}
+        </div>
+        <h4>推薦新聞 {{ type_name }} 負面</h4>
+        <div class="card">
+        {% for nb in news_bad %}
+            <a href="{{ nb.url }}">
+                <div class="card-action">
+                    <h6 class="activator grey-text text-darken-4">{{ nb.title }}</h6>
+                </div>
+            </a>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
