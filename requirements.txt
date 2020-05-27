@@ -1,0 +1,6 @@
+pymongo
+pandas
+django
+matplotlib
+elasticsearch
+mysqlclient
